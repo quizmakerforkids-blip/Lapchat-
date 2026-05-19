@@ -1,0 +1,105 @@
+{
+  "users": [
+    {
+      "username": "Suveshun",
+      "passwordHash": "$2b$10$mFsYoZOzNEndw3rOIg7hvOYANJHWFXbzBGZrMVuKqMN0n4f/5PbyC",
+      "bio": "",
+      "avatar": "",
+      "banner": "",
+      "accent": "#00d9ff",
+      "theme": "neon",
+      "density": "comfortable",
+      "status": "online",
+      "customStatus": ""
+    }
+  ],
+  "friends": [],
+  "servers": [
+    {
+      "id": 1,
+      "name": "Suveshun's Server",
+      "owner": "Suveshun",
+      "icon": "",
+      "description": "",
+      "createdAt": "09:57 pm"
+    }
+  ],
+  "serverMembers": [
+    {
+      "serverId": 1,
+      "username": "Suveshun",
+      "role": "owner",
+      "nickname": ""
+    }
+  ],
+  "channels": [
+    {
+      "id": 1,
+      "serverId": 1,
+      "name": "general",
+      "type": "text",
+      "topic": ""
+    },
+    {
+      "id": 2,
+      "serverId": 1,
+      "name": "gaming",
+      "type": "text",
+      "topic": ""
+    },
+    {
+      "id": 3,
+      "serverId": 1,
+      "name": "media",
+      "type": "text",
+      "topic": ""
+    },
+    {
+      "id": 4,
+      "serverId": 1,
+      "name": "announcements",
+      "type": "text",
+      "topic": ""
+    }
+  ],
+  "conversations": [
+    {
+      "id": 1,
+      "name": "1",
+      "type": "group",
+      "owner": "Suveshun",
+      "icon": "",
+      "createdAt": "09:59 pm"
+    }
+  ],
+  "conversationMembers": [
+    {
+      "conversationId": 1,
+      "username": "Suveshun"
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "scope": "conversation",
+      "targetId": 1,
+      "sender": "Suveshun",
+      "content": "Hello",
+      "type": "text",
+      "replyTo": null,
+      "edited": false,
+      "deleted": false,
+      "pinned": false,
+      "reactions": {},
+      "createdAt": "10:00 pm",
+      "replies": []
+    }
+  ],
+  "notes": [],
+  "bans": [],
+  "nextServerId": 2,
+  "nextChannelId": 5,
+  "nextConversationId": 2,
+  "nextMessageId": 2,
+  "nextNoteId": 1
+}

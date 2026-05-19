@@ -1,0 +1,54 @@
+{
+  "name": "lapchat",
+  "version": "2.0.0",
+  "description": "LapChat+",
+  "main": "electron.cjs",
+  "private": true,
+  "author": "Quiz",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 8570",
+    "client": "vite --host 127.0.0.1 --port 8570",
+    "server": "node server/index.cjs",
+    "dev:full": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "vite build",
+    "electron": "electron electron.cjs",
+    "electron:build": "npm run build && electron electron.cjs",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.3.4",
+    "@capacitor/cli": "^8.3.4",
+    "@capacitor/core": "^8.3.4",
+    "@vitejs/plugin-react": "latest",
+    "cors": "latest",
+    "express": "latest",
+    "lucide-react": "latest",
+    "multer": "latest",
+    "pg": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "socket.io": "latest",
+    "socket.io-client": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "concurrently": "latest",
+    "electron": "latest",
+    "electron-builder": "latest",
+    "wait-on": "latest"
+  },
+  "build": {
+    "appId": "com.lapchat.app",
+    "productName": "LapChat+",
+    "files": [
+      "dist/**/*",
+      "electron.cjs"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "directories": {
+      "output": "release"
+    }
+  }
+}
