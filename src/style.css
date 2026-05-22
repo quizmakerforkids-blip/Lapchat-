@@ -1037,3 +1037,34 @@
     text-align: left;
   }
 }
+/* Fix desktop chat scrolling + keep message box visible */
+.app.layout-desktop,
+.app:not(.layout-mobile) {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app.layout-desktop .chat-main,
+.app:not(.layout-mobile) .chat-main {
+  height: 100vh;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app.layout-desktop .messages,
+.app:not(.layout-mobile) .messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 18px;
+}
+
+.app.layout-desktop .composer,
+.app:not(.layout-mobile) .composer {
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
