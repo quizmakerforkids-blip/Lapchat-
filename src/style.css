@@ -1068,3 +1068,42 @@
   bottom: 0;
   z-index: 10;
 }
+/* Fix hidden friends list on desktop */
+.sidebar {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.friend-row,
+.dm-item,
+.channel {
+  flex-shrink: 0;
+}
+
+.sidebar .section-title {
+  flex-shrink: 0;
+}
+
+.sidebar-bottom {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  margin-top: 12px;
+}
+
+/* Make the Friends area visible */
+.friend-row .dm-item {
+  min-height: 52px;
+}
+
+.friend-row .avatar,
+.dm-item .avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+}
+
+/* Prevent Friends from being clipped under buttons */
+.sidebar {
+  padding-bottom: 90px;
+}
