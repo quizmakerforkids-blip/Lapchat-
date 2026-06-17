@@ -1,3 +1,4 @@
+
 let users = [];
 const express = require("express");
 const http = require("http");
@@ -7,6 +8,13 @@ const path = require("path");
 const fs = require("fs");
 const { Pool } = require("pg");
 const { Server } = require("socket.io");
+function loadDB() {
+  return JSON.parse(fs.readFileSync("./db.json", "utf8"));
+}
+
+function saveDB(db) {
+  fs.writeFileSync("./db.json", JSON.stringify(db, null, 2));
+}
 
 const app = express();
 const server = http.createServer(app);
