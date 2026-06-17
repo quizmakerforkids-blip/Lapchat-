@@ -1194,13 +1194,6 @@ app.use((req, res) => {
   });
 });
 
-initDB()
-  .then(() => {
-    server.listen(PORT, "0.0.0.0", () => {
-      console.log(`LapChat+ Supabase backend running on port ${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error("DATABASE INIT FAILED:", err);
-    process.exit(1);
-  });
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`LapChat+ backend running on port ${PORT}`);
+});
