@@ -220,7 +220,7 @@ const newUser = {
   theme: "neon",
   density: "comfortable",
   status: "online",
-  customStatus": ""
+  customStatus: ""
 };
 
 db.users.push(newUser);
