@@ -20,6 +20,7 @@
     "@capacitor/cli": "^8.3.4",
     "@capacitor/core": "^8.3.4",
     "@vitejs/plugin-react": "latest",
+    "bcryptjs": "^3.0.3",
     "cors": "latest",
     "express": "latest",
     "lucide-react": "latest",
