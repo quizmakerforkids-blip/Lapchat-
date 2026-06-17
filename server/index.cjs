@@ -192,14 +192,18 @@ app.post("/api/auth/signup", async (req, res) => {
       return res.status(400).json({ ok: false, error: "Missing username or password" });
     }
 
-    const exists = await pool.query(
-      "select id from users where lower(username)=lower($1)",
-      [username]
-    );
+const db = loadDB();
 
-    if (exists.rows.length) {
-      return res.status(409).json({ ok: false, error: "User already exists" });
-    }
+const existingUser = db.users.find(
+  u => u.username.toLowerCase() === username.toLowerCase()
+);
+
+if (existingUser) {
+  return res.status(400).json({
+    ok: false,
+    error: "Username already exists"
+  });
+}
 
     const userId = id();
 
