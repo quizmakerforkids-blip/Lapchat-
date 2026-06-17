@@ -209,8 +209,6 @@ if (existingUser) {
 
     const userId = id();
 
-const db = loadDB();
-
 const newUser = {
   id: userId,
   username,
