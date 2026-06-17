@@ -6,14 +6,6 @@ const fs = require("fs");
 const { Pool } = require("pg");
 const { Server } = require("socket.io");
 const path = require("path");
-const DB_PATH = path.join(__dirname, "db.json");
-function loadDB() {
-  return JSON.parse(fs.readFileSync(DB_PATH, "utf8"));
-}
-
-function saveDB(db) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
-}
 
 const app = express();
 const server = http.createServer(app);
@@ -191,41 +183,28 @@ app.post("/api/auth/signup", async (req, res) => {
       return res.status(400).json({ ok: false, error: "Missing username or password" });
     }
 
-const db = loadDB();
-
-const existingUser = db.users.find(
-  u => u.username.toLowerCase() === username.toLowerCase()
+const existingUser = await pool.query(
+  "SELECT id FROM users WHERE LOWER(username)=LOWER($1)",
+  [username]
 );
 
-if (existingUser) {
+if (existingUser.rows.length) {
   return res.status(400).json({
     ok: false,
     error: "Username already exists"
   });
 }
 
-    const userId = id();
+const userId = id();
 
-const newUser = {
-  id: userId,
-  username,
-  passwordHash: password,
-  bio: "",
-  avatar: "",
-  banner: "",
-  accent: "#00d9ff",
-  theme: "neon",
-  density: "comfortable",
-  status: "online",
-  customStatus: ""
-};
-
-db.users.push(newUser);
-saveDB(db);
-
-const result = {
-  rows: [newUser]
-};
+const result = await pool.query(
+  `INSERT INTO users
+   (id, username, password, status, custom_status, bio, avatar, banner, accent, theme, density)
+   VALUES
+   ($1,$2,$3,'online','','','','','#00d9ff','neon','comfortable')
+   RETURNING *`,
+  [userId, username, password]
+);
     return res.json({ ok: true, user: cleanUser(result.rows[0]) });
   } catch (err) {
     console.error("signup error:", err);
@@ -245,15 +224,15 @@ app.post("/api/auth/login", async (req, res) => {
       });
     }
 
-    const db = loadDB();
-
-    const user = db.users.find(
-      u =>
-        u.username.toLowerCase() === username.toLowerCase() &&
-        u.passwordHash === password
+    const result = await pool.query(
+      `SELECT *
+       FROM users
+       WHERE LOWER(username)=LOWER($1)
+       AND password=$2`,
+      [username, password]
     );
 
-    if (!user) {
+    if (!result.rows.length) {
       return res.status(401).json({
         ok: false,
         error: "Invalid username or password"
@@ -262,7 +241,7 @@ app.post("/api/auth/login", async (req, res) => {
 
     return res.json({
       ok: true,
-      user: cleanUser(user)
+      user: cleanUser(result.rows[0])
     });
 
   } catch (err) {
