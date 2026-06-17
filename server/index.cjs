@@ -252,7 +252,7 @@ app.post("/api/auth/login", async (req, res) => {
     const user = users.find(
       u =>
         u.username.toLowerCase() === username.toLowerCase() &&
-        u.password === password
+        u.passwordHash === password
     );
 
     if (!user) {
