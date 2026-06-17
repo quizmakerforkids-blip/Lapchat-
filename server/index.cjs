@@ -1,5 +1,3 @@
-
-let users = [];
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
@@ -9,8 +7,6 @@ const { Pool } = require("pg");
 const { Server } = require("socket.io");
 const path = require("path");
 const DB_PATH = path.join(__dirname, "db.json");
-const bcrypt = require("bcryptjs");
-
 function loadDB() {
   return JSON.parse(fs.readFileSync(DB_PATH, "utf8"));
 }
@@ -249,7 +245,9 @@ app.post("/api/auth/login", async (req, res) => {
       });
     }
 
-    const user = users.find(
+    const db = loadDB();
+
+    const user = db.users.find(
       u =>
         u.username.toLowerCase() === username.toLowerCase() &&
         u.passwordHash === password
@@ -261,56 +259,19 @@ app.post("/api/auth/login", async (req, res) => {
         error: "Invalid username or password"
       });
     }
-const hash = await bcrypt.hash(password, 10);
+
     return res.json({
       ok: true,
       user: cleanUser(user)
     });
+
   } catch (err) {
     console.error("login error:", err);
+
     return res.status(500).json({
       ok: false,
       error: "Login failed"
     });
-  }
-});
-
-/* FRIENDS */
-
-app.get("/api/friends", async (req, res) => {
-  try {
-    const username = String(req.query.username || "");
-
-    const result = await pool.query(
-      `
-      select
-        case when a=$1 then b else a end as username
-      from friends
-      where a=$1 or b=$1
-      `,
-      [username]
-    );
-
-    const names = result.rows.map(r => r.username);
-
-    if (!names.length) return res.json({ ok: true, friends: [] });
-
-    const users = await pool.query(
-      "select username, status, custom_status, avatar from users where username = any($1::text[])",
-      [names]
-    );
-
-    const friends = users.rows.map(u => ({
-      username: u.username,
-      status: u.status || "offline",
-      customStatus: u.custom_status || "",
-      avatar: u.avatar || ""
-    }));
-
-    return res.json({ ok: true, friends });
-  } catch (err) {
-    console.error("friends error:", err);
-    return res.status(500).json({ ok: false, error: "Could not load friends" });
   }
 });
 
