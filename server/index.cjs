@@ -3,7 +3,6 @@ const http = require("http");
 const cors = require("cors");
 const multer = require("multer");
 const fs = require("fs");
-const { Pool } = require("pg");
 const { Server } = require("socket.io");
 const path = require("path");
 
@@ -11,16 +10,22 @@ const app = express();
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 8020;
-const DATABASE_URL = process.env.DATABASE_URL;
+const DB_PATH = path.join(__dirname, "db.json");
 
-if (!DATABASE_URL) {
-  console.warn("WARNING: DATABASE_URL is missing. Add it in Render environment variables.");
+function loadDB() {
+  if (!fs.existsSync(DB_PATH)) {
+    return {
+      users: [], friends: [], friend_requests: [], servers: [],
+      channels: [], server_members: [], conversations: [],
+      messages: [], notes: []
+    };
+  }
+  return JSON.parse(fs.readFileSync(DB_PATH, "utf8"));
 }
 
-const pool = new Pool({
-  connectionString: DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-});
+function saveDB(db) {
+  fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
+}
 
 const io = new Server(server, {
   cors: {
