@@ -213,7 +213,7 @@ if (existingUser) {
 const newUser = {
   id: userId,
   username,
-  passwordHash: hash,
+  passwordHash: password,
   bio: "",
   avatar: "",
   banner: "",
