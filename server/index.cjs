@@ -4,16 +4,18 @@ const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const multer = require("multer");
-const path = require("path");
 const fs = require("fs");
 const { Pool } = require("pg");
 const { Server } = require("socket.io");
+const path = require("path");
+const DB_PATH = path.join(__dirname, "db.json");
+
 function loadDB() {
-  return JSON.parse(fs.readFileSync("./db.json", "utf8"));
+  return JSON.parse(fs.readFileSync(DB_PATH, "utf8"));
 }
 
 function saveDB(db) {
-  fs.writeFileSync("./db.json", JSON.stringify(db, null, 2));
+  fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
 }
 
 const app = express();
