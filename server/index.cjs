@@ -209,13 +209,28 @@ if (existingUser) {
 
     const userId = id();
 
-    const result = await pool.query(
-      `insert into users (id, username, password)
-       values ($1, $2, $3)
-       returning *`,
-      [userId, username, password]
-    );
+const db = loadDB();
 
+const newUser = {
+  id: userId,
+  username,
+  passwordHash: hash,
+  bio: "",
+  avatar: "",
+  banner: "",
+  accent: "#00d9ff",
+  theme: "neon",
+  density: "comfortable",
+  status: "online",
+  customStatus": ""
+};
+
+db.users.push(newUser);
+saveDB(db);
+
+const result = {
+  rows: [newUser]
+};
     return res.json({ ok: true, user: cleanUser(result.rows[0]) });
   } catch (err) {
     console.error("signup error:", err);
