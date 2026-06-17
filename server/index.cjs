@@ -1,3 +1,4 @@
+let users = [];
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
@@ -214,22 +215,35 @@ app.post("/api/auth/login", async (req, res) => {
     const password = String(req.body.password || "");
 
     if (!username || !password) {
-      return res.status(400).json({ ok: false, error: "Missing username or password" });
+      return res.status(400).json({
+        ok: false,
+        error: "Missing username or password"
+      });
     }
 
-    const result = await pool.query(
-      "select * from users where lower(username)=lower($1) and password=$2",
-      [username, password]
+    const user = users.find(
+      u =>
+        u.username.toLowerCase() === username.toLowerCase() &&
+        u.password === password
     );
 
-    if (!result.rows.length) {
-      return res.status(401).json({ ok: false, error: "Invalid username or password" });
+    if (!user) {
+      return res.status(401).json({
+        ok: false,
+        error: "Invalid username or password"
+      });
     }
 
-    return res.json({ ok: true, user: cleanUser(result.rows[0]) });
+    return res.json({
+      ok: true,
+      user: cleanUser(user)
+    });
   } catch (err) {
     console.error("login error:", err);
-    return res.status(500).json({ ok: false, error: "Login failed" });
+    return res.status(500).json({
+      ok: false,
+      error: "Login failed"
+    });
   }
 });
 
