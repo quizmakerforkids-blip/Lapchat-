@@ -9,6 +9,7 @@ const { Pool } = require("pg");
 const { Server } = require("socket.io");
 const path = require("path");
 const DB_PATH = path.join(__dirname, "db.json");
+const bcrypt = require("bcryptjs");
 
 function loadDB() {
   return JSON.parse(fs.readFileSync(DB_PATH, "utf8"));
@@ -260,7 +261,7 @@ app.post("/api/auth/login", async (req, res) => {
         error: "Invalid username or password"
       });
     }
-
+const hash = await bcrypt.hash(password, 10);
     return res.json({
       ok: true,
       user: cleanUser(user)
