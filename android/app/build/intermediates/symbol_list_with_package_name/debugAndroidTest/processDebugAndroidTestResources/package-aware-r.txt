@@ -1,3 +1,0 @@
-com.lapchat.app.test
-style WhiteBackgroundDialogTheme
-style WhiteBackgroundTheme
